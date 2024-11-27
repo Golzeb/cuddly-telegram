@@ -20,6 +20,7 @@ Table::Table(const std::string& heightmapPath, const std::string& albedoPath) {
 
 	m_actor->SetMapper(m_mapper);
 	m_actor->GetProperty()->SetRepresentationToSurface();
+    m_actor->SetPickable(false);
 
     m_light = vtkNew<vtkLight>();
     m_light->SetLightTypeToSceneLight();

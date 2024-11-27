@@ -22,7 +22,11 @@ public:
 
 	void setVelocity(const std::pair<float, float>& velocity);
 
+	bool isMoving();
+
 	void update(float delta);
+
+	static void updateBallCollisions(float delta);
 	
 	vtkActor* getActor();
 private:
@@ -35,7 +39,7 @@ private:
 	double m_radius;
 	Vector3 m_position;
 
-	const float FRICITON = 0.05f; //0.05f
+	const float FRICITON = 0.1f; //0.05f
 
 	std::pair<float, float> m_velocity;
 

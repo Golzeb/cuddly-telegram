@@ -22,7 +22,11 @@ set(Srcs
   Table.h
   Table.cxx
   Ball.cxx
-  Ball.h)
+  Ball.h
+  Cue.cxx
+  Cue.h
+  Predictor.cxx
+  Predictor.h)
 
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
