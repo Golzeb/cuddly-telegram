@@ -35,6 +35,8 @@ Cue::Cue()
 	m_actor->SetPosition(0, 0, 0);
 
 	m_direction = vtkVector2f(1.0, 0.0);
+
+	m_rotation = 0.0f;
 }
 
 Cue::~Cue()
@@ -70,6 +72,7 @@ void Cue::update(float delta) {
 
 void Cue::rotate(float angle)
 {
+	m_rotation += angle;
 	m_finalTransform->RotateY(angle);
 
 	auto data = m_finalTransform->TransformFloatVector(vtkVector3f(m_direction.GetX(), m_direction.GetY(), 0.0).GetData());
@@ -78,6 +81,11 @@ void Cue::rotate(float angle)
 	p_ball->getActor()->GetPosition(ballPosition);
 
 	p_predictor->setPrediction(vtkVector3f(ballPosition[0], ballPosition[1], ballPosition[2]), vtkVector2f(data[0], data[2]), 6);
+}
+
+float Cue::getRotation()
+{
+	return m_rotation;
 }
 
 void Cue::setBall(Ball* ball)

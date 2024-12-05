@@ -16,6 +16,8 @@
 #include <vtkCamera.h>
 #include <vtkInteractorStyle.h>
 #include <vtkPropPicker.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
 
 #include <QApplication>
 #include <QDockWidget>
@@ -38,6 +40,7 @@
 #include "Ball.h"
 #include "Cue.h"
 #include "Predictor.h"
+#include "Debug.h"
 
 class CustomInteractorStyle : public vtkInteractorStyle {
 public:
@@ -68,7 +71,7 @@ public:
             float deltaY = float(m_lastMousePos[1] - m_oldMousePos[1]);
 
             if (m_picker->GetActor() == p_cue->getActor()) {
-                p_cue->rotate(deltaX * 0.25);
+                p_cue->rotate(deltaX * 0.1);
             }
         }
     }
@@ -191,6 +194,9 @@ int main(int argc, char* argv[])
     cue.setPredictor(&predictor);
     cue.rotate(180);
 
+    Debug debug;
+    debug.setCue(&cue);
+
     vtkNew<vtkRenderer> renderer;
     renderer->AddActor(ball1.getActor());
     renderer->AddActor(ball2.getActor());
@@ -198,6 +204,7 @@ int main(int argc, char* argv[])
     renderer->AddActor(cue.getActor());
     renderer->AddActor(predictor.getActor());
     renderer->AddLight(table.getLight());
+    renderer->AddActor2D(debug.getActor2D());
 
     renderer->GetActiveCamera()->SetFocalPoint(0.0, 0.0, 0.0);
     renderer->GetActiveCamera()->SetPosition(1.5, 1.5 * 0.75, 0.0);
@@ -210,17 +217,20 @@ int main(int argc, char* argv[])
 
     window->GetInteractor()->SetInteractorStyle(style);
 
+
     // connect the buttons
     //QObject::connect(&randomizeButton, &QPushButton::released, [&]() {});
 
     mainWindow.show();
 
     QTimer timer;
-    timer.setInterval(16);
+    timer.setInterval(17);
 
     QElapsedTimer deltaTimer;
 
     float delta = 0;
+
+    debug.setDeltaTimeLocation(&delta);
 
     deltaTimer.restart();
     QObject::connect(&timer, &QTimer::timeout, [&](){
@@ -233,6 +243,7 @@ int main(int argc, char* argv[])
         Ball::updateBallCollisions(delta);
 
         cue.update(delta);
+        debug.update();
 
         deltaTimer.restart();
     });

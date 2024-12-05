@@ -21,6 +21,8 @@ public:
 	void update(float delta);
 	void rotate(float angle);
 
+	float getRotation();
+
 	vtkActor* getActor();
 
 	void setBall(Ball* ball);
@@ -39,6 +41,7 @@ private:
 	Predictor* p_predictor;
 	Ball* p_ball;
 
+	float m_rotation;
 	bool m_oldVisible = true;
 };
 

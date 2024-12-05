@@ -26,7 +26,10 @@ set(Srcs
   Cue.cxx
   Cue.h
   Predictor.cxx
-  Predictor.h)
+  Predictor.h
+  Debug.cxx
+  Debug.h
+)
 
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
